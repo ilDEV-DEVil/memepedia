@@ -1,0 +1,29 @@
+<div class="list-container">
+    <header class="list-header">
+        <h2>All Memes</h2>
+        <div class="search-bar">
+            <input type="text" placeholder="Search memes..." [(ngModel)]="searchTerm"
+                (ngModelChange)="onSearch($event)">
+        </div>
+    </header>
+
+    <div class="meme-grid" *ngIf="filteredMemes$ | async as memes; else loading">
+        <div class="meme-card" *ngFor="let meme of memes">
+            <a [routerLink]="['/memes', meme.id]">
+                <div class="image-wrapper">
+                    <img [src]="meme.url" [alt]="meme.name" loading="lazy">
+                </div>
+                <div class="card-content">
+                    <h3>{{ meme.name }}</h3>
+                </div>
+            </a>
+        </div>
+        <div *ngIf="memes.length === 0" class="no-results">
+            No memes found matching "{{ searchTerm }}".
+        </div>
+    </div>
+
+    <ng-template #loading>
+        <div class="loading">Loading memes...</div>
+    </ng-template>
+</div>

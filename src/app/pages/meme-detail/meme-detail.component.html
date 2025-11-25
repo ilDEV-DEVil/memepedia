@@ -1,0 +1,34 @@
+<div class="detail-container" *ngIf="meme$ | async as meme; else loading">
+    <div class="back-link">
+        <a routerLink="/memes">← Back to List</a>
+    </div>
+
+    <div class="content-wrapper">
+        <div class="image-section">
+            <img [src]="meme.url" [alt]="meme.name">
+        </div>
+
+        <div class="info-section">
+            <h1>{{ meme.name }}</h1>
+
+            <div class="info-block">
+                <h2>Origin</h2>
+                <p>{{ meme.origin }}</p>
+            </div>
+
+            <div class="info-block">
+                <h2>History & Usage</h2>
+                <p>{{ meme.history }}</p>
+            </div>
+
+            <div class="meta-info">
+                <span>Dimensions: {{ meme.width }}x{{ meme.height }}</span>
+                <span>Captions: {{ meme.captions }}</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<ng-template #loading>
+    <div class="loading">Loading meme details...</div>
+</ng-template>

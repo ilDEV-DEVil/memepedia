@@ -1,0 +1,26 @@
+<div class="home-container">
+    <header class="hero">
+        <h1>Welcome to Memepedia</h1>
+        <p>Discover the origin stories of your favorite internet culture moments.</p>
+        <a routerLink="/memes" class="cta-button">Explore All Memes</a>
+    </header>
+
+    <section class="trending">
+        <h2>Trending Now</h2>
+        <div class="meme-grid" *ngIf="trendingMemes$ | async as memes; else loading">
+            <div class="meme-card" *ngFor="let meme of memes">
+                <a [routerLink]="['/memes', meme.id]">
+                    <div class="image-wrapper">
+                        <img [src]="meme.url" [alt]="meme.name" loading="lazy">
+                    </div>
+                    <div class="card-content">
+                        <h3>{{ meme.name }}</h3>
+                    </div>
+                </a>
+            </div>
+        </div>
+        <ng-template #loading>
+            <div class="loading">Loading trending memes...</div>
+        </ng-template>
+    </section>
+</div>
