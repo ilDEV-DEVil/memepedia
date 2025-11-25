@@ -1,29 +1,75 @@
 <div class="list-container">
     <header class="list-header">
-        <h2>All Memes</h2>
-        <div class="search-bar">
-            <input type="text" placeholder="Search memes..." [(ngModel)]="searchTerm"
-                (ngModelChange)="onSearch($event)">
+        <div class="header-content">
+            <h1 class="page-title">All Memes</h1>
+            <p class="page-subtitle">Explore the complete collection of internet's finest memes</p>
+        </div>
+
+        <div class="search-wrapper">
+            <div class="search-bar">
+                <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="11" cy="11" r="8" />
+                    <path d="m21 21-4.35-4.35" />
+                </svg>
+                <input type="text" placeholder="Search memes by name..." [(ngModel)]="searchTerm"
+                    (ngModelChange)="onSearch($event)" class="search-input">
+                <span class="search-count" *ngIf="filteredMemes$ | async as memes">
+                    {{ memes.length }} {{ memes.length === 1 ? 'meme' : 'memes' }}
+                </span>
+            </div>
         </div>
     </header>
 
     <div class="meme-grid" *ngIf="filteredMemes$ | async as memes; else loading">
-        <div class="meme-card" *ngFor="let meme of memes">
-            <a [routerLink]="['/memes', meme.id]">
+        <div class="meme-card" *ngFor="let meme of memes; let i = index" [style.animation-delay]="(i * 0.05) + 's'">
+            <a [routerLink]="['/memes', meme.id]" class="card-link">
                 <div class="image-wrapper">
-                    <img [src]="meme.url" [alt]="meme.name" loading="lazy">
+                    <img [src]="meme.url" [alt]="meme.name" loading="lazy" class="meme-image">
+                    <div class="image-overlay">
+                        <span class="view-details">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                                <circle cx="12" cy="12" r="3" />
+                            </svg>
+                            View Details
+                        </span>
+                    </div>
                 </div>
                 <div class="card-content">
-                    <h3>{{ meme.name }}</h3>
+                    <h3 class="meme-name">{{ meme.name }}</h3>
+                    <div class="card-meta">
+                        <span class="meta-item">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2">
+                                <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
+                            </svg>
+                            {{ meme.width }}×{{ meme.height }}
+                        </span>
+                    </div>
                 </div>
             </a>
         </div>
+
         <div *ngIf="memes.length === 0" class="no-results">
-            No memes found matching "{{ searchTerm }}".
+            <div class="no-results-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2">
+                    <circle cx="11" cy="11" r="8" />
+                    <path d="m21 21-4.35-4.35" />
+                </svg>
+            </div>
+            <h3>No memes found</h3>
+            <p>Try searching with different keywords</p>
+            <p class="search-term">"{{ searchTerm }}"</p>
         </div>
     </div>
 
     <ng-template #loading>
-        <div class="loading">Loading memes...</div>
+        <div class="loading-container">
+            <div class="spinner"></div>
+            <p>Loading memes...</p>
+        </div>
     </ng-template>
 </div>
