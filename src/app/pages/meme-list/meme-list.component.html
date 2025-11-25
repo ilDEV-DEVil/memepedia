@@ -23,7 +23,7 @@
 
     <div class="meme-grid" *ngIf="filteredMemes$ | async as memes; else loading">
         <div class="meme-card" *ngFor="let meme of memes; let i = index" [style.animation-delay]="(i * 0.05) + 's'">
-            <a [routerLink]="['/memes', meme.id]" class="card-link">
+            <a [routerLink]="['/memes', meme.id]" class="card-link" (click)="onMemeClick()">
                 <div class="image-wrapper">
                     <img [src]="meme.url" [alt]="meme.name" loading="lazy" class="meme-image">
                     <div class="image-overlay">
