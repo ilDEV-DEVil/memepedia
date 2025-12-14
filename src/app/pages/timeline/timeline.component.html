@@ -1,0 +1,105 @@
+<div class="timeline-container">
+    <div class="header-section">
+        <h1 class="page-title">Timeline dei Meme</h1>
+        <p class="page-description">Esplora l'evoluzione dei meme attraverso gli anni, come una storia cronologica</p>
+    </div>
+
+    <div class="year-selector-wrapper">
+        <div class="year-selector">
+            <button class="year-button" [class.active]="selectedYear === null" (click)="selectYear(null)">
+                Tutti gli anni
+            </button>
+            <button *ngFor="let year of availableYears" class="year-button" [class.active]="selectedYear === year"
+                (click)="selectYear(year)">
+                {{ year }}
+            </button>
+        </div>
+    </div>
+
+    <div class="timeline-content" *ngIf="!loading; else loadingTemplate">
+        <div class="memes-count">
+            <span *ngIf="selectedYear === null">
+                Mostrando tutti i {{ filteredMemes.length }} meme
+            </span>
+            <span *ngIf="selectedYear !== null">
+                {{ filteredMemes.length }} meme<span *ngIf="filteredMemes.length !== 1"></span> dal {{ selectedYear }}
+            </span>
+        </div>
+
+        <div class="timeline-wrapper" *ngIf="filteredMemes.length > 0; else emptyTemplate">
+            <!-- Central timeline line -->
+            <div class="timeline-line"></div>
+
+            <!-- Timeline items -->
+            <div class="timeline-items">
+                <div *ngFor="let meme of filteredMemes; let i = index" class="timeline-item" [class.left]="isLeft(i)"
+                    [class.right]="!isLeft(i)">
+
+                    <!-- Timeline dot connector -->
+                    <div class="timeline-dot">
+                        <div class="dot-inner"></div>
+                        <div class="dot-pulse"></div>
+                    </div>
+
+                    <!-- Year badge (show only when year changes) -->
+                    <div class="year-badge" *ngIf="i === 0 || getMemeYear(meme) !== getMemeYear(filteredMemes[i-1])">
+                        {{ getMemeYear(meme) }}
+                    </div>
+
+                    <!-- Meme card -->
+                    <a [routerLink]="['/memes', meme.id]" class="meme-card">
+                        <div class="card-connector"></div>
+
+                        <div class="meme-image-wrapper">
+                            <img [src]="meme.url" [alt]="meme.name" class="meme-image">
+                            <div class="meme-overlay">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"
+                                    fill="none" stroke="currentColor" stroke-width="2">
+                                    <circle cx="12" cy="12" r="10" />
+                                    <polyline points="12 8 16 12 12 16" />
+                                    <line x1="8" y1="12" x2="16" y2="12" />
+                                </svg>
+                                <span class="view-text">Vedi dettagli</span>
+                            </div>
+                        </div>
+
+                        <div class="meme-info">
+                            <h3 class="meme-name">{{ meme.name }}</h3>
+                            <div class="meme-date">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
+                                    fill="none" stroke="currentColor" stroke-width="2">
+                                    <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+                                    <line x1="16" y1="2" x2="16" y2="6" />
+                                    <line x1="8" y1="2" x2="8" y2="6" />
+                                    <line x1="3" y1="10" x2="21" y2="10" />
+                                </svg>
+                                {{ formatDate(meme.createdDate!) }}
+                            </div>
+                            <p class="meme-origin" *ngIf="meme.origin">{{ meme.origin }}</p>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <ng-template #emptyTemplate>
+            <div class="empty-state">
+                <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="1.5">
+                    <circle cx="12" cy="12" r="10" />
+                    <line x1="12" y1="8" x2="12" y2="12" />
+                    <line x1="12" y1="16" x2="12.01" y2="16" />
+                </svg>
+                <h3>Nessun meme trovato</h3>
+                <p>Non ci sono meme dal {{ selectedYear }}.</p>
+            </div>
+        </ng-template>
+    </div>
+
+    <ng-template #loadingTemplate>
+        <div class="loading-container">
+            <div class="spinner"></div>
+            <p>Caricamento timeline...</p>
+        </div>
+    </ng-template>
+</div>
