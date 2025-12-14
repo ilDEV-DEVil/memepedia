@@ -159,6 +159,7 @@
         .year-badge {
             left: auto;
             right: calc(50% + 60px);
+            top: -60px;
         }
     }
 
@@ -180,6 +181,7 @@
         .year-badge {
             right: auto;
             left: calc(50% + 60px);
+            top: -60px;
         }
     }
 }
