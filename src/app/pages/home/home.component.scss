@@ -9,35 +9,37 @@
 .hero {
     text-align: center;
     margin-bottom: $spacing-xl * 2;
-    padding: $spacing-xl;
-    background: linear-gradient(135deg, $surface-color 0%, darken($surface-color, 5%) 100%);
-    border-radius: 16px;
+    padding: $spacing-xl * 1.5;
+    @include glass-card;
+    border-radius: 24px;
 
     h1 {
-        font-size: 3rem;
+        font-size: 3.5rem;
         margin-bottom: $spacing-md;
-        color: $primary-color;
+        @include text-gradient;
+        font-weight: 800;
+        letter-spacing: -0.02em;
     }
 
     p {
         font-size: 1.2rem;
         color: $text-secondary;
         margin-bottom: $spacing-lg;
+        max-width: 600px;
+        margin-left: auto;
+        margin-right: auto;
     }
 
     .cta-button {
         display: inline-block;
-        background-color: $secondary-color;
-        color: #000;
-        padding: $spacing-md $spacing-lg;
-        border-radius: 8px;
+        background: $primary-gradient;
+        color: white;
+        padding: $spacing-md $spacing-xl;
+        border-radius: 12px;
         font-weight: bold;
-        transition: transform 0.2s, box-shadow 0.2s;
-
-        &:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba($secondary-color, 0.4);
-        }
+        font-size: 1.1rem;
+        @include hover-lift;
+        box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
     }
 }
 
@@ -45,29 +47,27 @@
     h2 {
         font-size: 2rem;
         margin-bottom: $spacing-lg;
-        border-bottom: 2px solid $surface-color;
         padding-bottom: $spacing-sm;
+        @include text-gradient;
+        display: inline-block;
+        font-weight: 700;
     }
 }
 
 .meme-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
     gap: $spacing-lg;
 }
 
 .meme-card {
-    background-color: $surface-color;
-    border-radius: 12px;
+    @include glass-card;
+    border-radius: 20px;
     overflow: hidden;
-    transition: transform 0.3s;
     height: 100%;
     display: flex;
     flex-direction: column;
-
-    &:hover {
-        transform: scale(1.03);
-    }
+    @include hover-lift;
 
     a {
         display: flex;
@@ -78,15 +78,23 @@
     .image-wrapper {
         height: 250px;
         overflow: hidden;
-        background-color: #000;
+        background-color: rgba(0, 0, 0, 0.2);
         display: flex;
         align-items: center;
         justify-content: center;
+        position: relative;
 
         img {
             width: 100%;
             height: 100%;
             object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+    }
+
+    &:hover {
+        .image-wrapper img {
+            transform: scale(1.1);
         }
     }
 
@@ -97,6 +105,7 @@
             margin: 0;
             font-size: 1.1rem;
             color: $text-color;
+            font-weight: 600;
         }
     }
 }

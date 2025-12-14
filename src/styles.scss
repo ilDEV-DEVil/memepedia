@@ -3,8 +3,10 @@
 body {
     margin: 0;
     font-family: $font-family;
-    background-color: $background-color;
+    background: $main-gradient;
     color: $text-color;
+    min-height: 100vh;
+    background-attachment: fixed;
 }
 
 * {
