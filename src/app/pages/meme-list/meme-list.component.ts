@@ -18,7 +18,7 @@ export class MemeListComponent implements OnInit, AfterViewInit {
   private searchTermSubject = new BehaviorSubject<string>('');
   private readonly ROUTE_KEY = '/memes';
 
-  memes!: Promise<Meme[]>
+  memes!: Promise<Meme[]>;
 
   constructor(
     private scrollPositionService: ScrollPositionService,
@@ -61,5 +61,14 @@ export class MemeListComponent implements OnInit, AfterViewInit {
   onMemeClick(): void {
     const scrollPosition = this.viewportScroller.getScrollPosition()[1];
     this.scrollPositionService.saveScrollPosition(this.ROUTE_KEY, scrollPosition);
-  } 
+  }
+
+  /**
+   * Ottiene l'URL pubblico di un'immagine dal bucket di Supabase
+   * @param imagePath Il percorso dell'immagine nel bucket
+   * @returns L'URL pubblico dell'immagine
+   */
+  getImageUrl(imagePath: string): string {
+    return this.supabaseService.getPublicImageUrl(imagePath);
+  }
 }

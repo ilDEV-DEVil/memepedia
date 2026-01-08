@@ -25,7 +25,7 @@
         <div class="meme-card" *ngFor="let meme of memes; let i = index" [style.animation-delay]="(i * 0.05) + 's'">
             <a [routerLink]="['/memes', meme.id]" class="card-link" (click)="onMemeClick()">
                 <div class="image-wrapper">
-                    <img [src]="meme.image_path" [alt]="meme.title" loading="lazy" class="meme-image">
+                    <img [src]="getImageUrl(meme.image_path)" [alt]="meme.title" loading="lazy" class="meme-image">
                     <div class="image-overlay">
                         <span class="view-details">
                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
