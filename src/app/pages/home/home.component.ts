@@ -22,9 +22,9 @@ export class HomeComponent implements OnInit {
   }
 
   /**
-   * Ottiene l'URL pubblico di un'immagine dal bucket di Supabase
-   * @param imagePath Il percorso dell'immagine nel bucket
-   * @returns L'URL pubblico dell'immagine
+   * Gets the public URL of an image from the Supabase bucket
+   * @param imagePath The path of the image in the bucket
+   * @returns The public URL of the image
    */
   getImageUrl(imagePath: string): string {
     return this.supabaseService.getPublicImageUrl(imagePath);

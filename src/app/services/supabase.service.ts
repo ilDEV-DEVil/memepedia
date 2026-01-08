@@ -44,12 +44,12 @@ export class SupabaseService {
   }
 
   /**
-   * Ottiene l'URL pubblico di un'immagine dal bucket di Supabase
-   * @param imagePath Il percorso dell'immagine nel bucket (es. /images/meme.jpg o images/meme.jpg)
-   * @returns L'URL pubblico dell'immagine
+   * Gets the public URL of an image from the Supabase bucket
+   * @param imagePath The path of the image in the bucket (e.g. /images/meme.jpg or images/meme.jpg)
+   * @returns The public URL of the image
    */
   getPublicImageUrl(imagePath: string): string {
-    // Rimuove eventuali slash iniziali (il path deve essere "images/..." non "/images/...")
+    // Remove any leading slashes (the path should be "images/..." not "/images/...")
     const cleanPath = imagePath.startsWith('/') ? imagePath.substring(1) : imagePath;
 
     const { data } = this.supabase

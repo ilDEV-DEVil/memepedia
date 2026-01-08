@@ -10,30 +10,30 @@ export class ScrollPositionService {
     constructor() { }
 
     /**
-     * Salva la posizione di scroll corrente per una route specifica
+     * Saves the current scroll position for a specific route
      */
     saveScrollPosition(route: string, position: number): void {
         this.scrollPositions.set(route, position);
-        // Salva anche in sessionStorage per persistenza durante refresh
+        // Also save in sessionStorage for persistence during refresh
         try {
             sessionStorage.setItem(this.STORAGE_KEY, position.toString());
         } catch (e) {
-            // Ignora errori di storage (es. modalità privata)
+            // Ignore storage errors (e.g. private mode)
             console.warn('Could not save scroll position to sessionStorage', e);
         }
     }
 
     /**
-     * Recupera la posizione di scroll salvata per una route specifica
+     * Retrieves the saved scroll position for a specific route
      */
     getScrollPosition(route: string): number | null {
-        // Prova prima dalla memoria
+        // Try from memory first
         const memoryPosition = this.scrollPositions.get(route);
         if (memoryPosition !== undefined) {
             return memoryPosition;
         }
 
-        // Fallback a sessionStorage
+        // Fallback to sessionStorage
         try {
             const storedPosition = sessionStorage.getItem(this.STORAGE_KEY);
             if (storedPosition) {
@@ -47,7 +47,7 @@ export class ScrollPositionService {
     }
 
     /**
-     * Cancella la posizione di scroll salvata per una route specifica
+     * Clears the saved scroll position for a specific route
      */
     clearScrollPosition(route: string): void {
         this.scrollPositions.delete(route);
@@ -59,7 +59,7 @@ export class ScrollPositionService {
     }
 
     /**
-     * Cancella tutte le posizioni di scroll salvate
+     * Clears all saved scroll positions
      */
     clearAllScrollPositions(): void {
         this.scrollPositions.clear();

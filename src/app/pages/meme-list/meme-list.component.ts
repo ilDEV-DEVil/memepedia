@@ -31,7 +31,7 @@ export class MemeListComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {
-    // Ripristina la posizione di scroll dopo che la vista è stata inizializzata
+    // Restore the scroll position after the view has been initialized
     setTimeout(() => {
       const savedPosition = this.scrollPositionService.getScrollPosition(this.ROUTE_KEY);
       if (savedPosition !== null) {
@@ -42,12 +42,12 @@ export class MemeListComponent implements OnInit, AfterViewInit {
 
   onSearch(term: string) {
     this.searchTermSubject.next(term);
-    // Resetta la posizione di scroll quando si effettua una ricerca
+    // Reset the scroll position when performing a search
     this.scrollPositionService.clearScrollPosition(this.ROUTE_KEY);
   }
 
   /**
-   * Salva la posizione di scroll prima di navigare via dalla pagina
+   * Saves the scroll position before navigating away from the page
    */
   @HostListener('window:scroll', [])
   onScroll(): void {
@@ -56,7 +56,7 @@ export class MemeListComponent implements OnInit, AfterViewInit {
   }
 
   /**
-   * Chiamato quando si clicca su una card per navigare al dettaglio
+   * Called when clicking on a card to navigate to the detail page
    */
   onMemeClick(): void {
     const scrollPosition = this.viewportScroller.getScrollPosition()[1];
@@ -64,9 +64,9 @@ export class MemeListComponent implements OnInit, AfterViewInit {
   }
 
   /**
-   * Ottiene l'URL pubblico di un'immagine dal bucket di Supabase
-   * @param imagePath Il percorso dell'immagine nel bucket
-   * @returns L'URL pubblico dell'immagine
+   * Gets the public URL of an image from the Supabase bucket
+   * @param imagePath The path of the image in the bucket
+   * @returns The public URL of the image
    */
   getImageUrl(imagePath: string): string {
     return this.supabaseService.getPublicImageUrl(imagePath);
