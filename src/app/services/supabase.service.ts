@@ -29,6 +29,20 @@ export class SupabaseService {
     return data;
   }
 
+  async getTrendingMemes() {
+    const { data, error } = await this.supabase
+      .from('Memes')
+      .select('*')
+      .order('meme_creation_date', { ascending: false });
+
+    if (error) {
+      console.error('Error fetching trending memes:', error);
+      return [];
+    }
+
+    return data;
+  }
+
   /**
    * Ottiene l'URL pubblico di un'immagine dal bucket di Supabase
    * @param imagePath Il percorso dell'immagine nel bucket (es. /images/meme.jpg o images/meme.jpg)

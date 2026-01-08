@@ -7,14 +7,14 @@
 
     <section class="trending">
         <h2>Trending Now</h2>
-        <div class="meme-grid" *ngIf="trendingMemes$ | async as memes; else loading">
+        <div class="meme-grid" *ngIf="trendingMemes | async as memes; else loading">
             <div class="meme-card" *ngFor="let meme of memes">
                 <a [routerLink]="['/memes', meme.id]">
                     <div class="image-wrapper">
-                        <img [src]="meme.url" [alt]="meme.name" loading="lazy">
+                        <img [src]="getImageUrl(meme.image_path)" [alt]="meme.title" loading="lazy">
                     </div>
                     <div class="card-content">
-                        <h3>{{ meme.name }}</h3>
+                        <h3>{{ meme.title }}</h3>
                     </div>
                 </a>
             </div>
