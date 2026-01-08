@@ -1,12 +1,10 @@
-import { Component, OnInit, AfterViewInit, HostListener } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { RouterLink } from '@angular/router';
+import { CommonModule, ViewportScroller } from '@angular/common';
+import { AfterViewInit, Component, HostListener, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { ViewportScroller } from '@angular/common';
-import { MemeService, Meme } from '../../services/meme.service';
+import { RouterLink } from '@angular/router';
+import { BehaviorSubject } from 'rxjs';
 import { ScrollPositionService } from '../../services/scroll-position.service';
-import { Observable, combineLatest, BehaviorSubject } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { SupabaseService, Meme } from '../../services/supabase.service';
 
 @Component({
   selector: 'app-meme-list',
@@ -20,29 +18,16 @@ export class MemeListComponent implements OnInit, AfterViewInit {
   private searchTermSubject = new BehaviorSubject<string>('');
   private readonly ROUTE_KEY = '/memes';
 
-  memes$!: Observable<Meme[]>;
-  filteredMemes$!: Observable<Meme[]>;
+  memes!: Promise<Meme[]>
 
   constructor(
-    private memeService: MemeService,
     private scrollPositionService: ScrollPositionService,
-    private viewportScroller: ViewportScroller
+    private viewportScroller: ViewportScroller,
+    private supabaseService: SupabaseService
   ) { }
 
   ngOnInit() {
-    this.memes$ = this.memeService.getMemes();
-
-    this.filteredMemes$ = combineLatest([
-      this.memes$,
-      this.searchTermSubject
-    ]).pipe(
-      map(([memes, term]) => {
-        if (!term) return memes;
-        return memes.filter(meme =>
-          meme.name.toLowerCase().includes(term.toLowerCase())
-        );
-      })
-    );
+    this.memes = this.supabaseService.getMemes();
   }
 
   ngAfterViewInit() {
@@ -76,5 +61,5 @@ export class MemeListComponent implements OnInit, AfterViewInit {
   onMemeClick(): void {
     const scrollPosition = this.viewportScroller.getScrollPosition()[1];
     this.scrollPositionService.saveScrollPosition(this.ROUTE_KEY, scrollPosition);
-  }
+  } 
 }

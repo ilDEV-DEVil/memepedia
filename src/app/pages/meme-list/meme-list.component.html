@@ -14,18 +14,18 @@
                 </svg>
                 <input type="text" placeholder="Search memes by name..." [(ngModel)]="searchTerm"
                     (ngModelChange)="onSearch($event)" class="search-input">
-                <span class="search-count" *ngIf="filteredMemes$ | async as memes">
+                <span class="search-count" *ngIf="memes | async as memes">
                     {{ memes.length }} {{ memes.length === 1 ? 'meme' : 'memes' }}
                 </span>
             </div>
         </div>
     </header>
 
-    <div class="meme-grid" *ngIf="filteredMemes$ | async as memes; else loading">
+    <div class="meme-grid" *ngIf="memes | async as memes; else loading">
         <div class="meme-card" *ngFor="let meme of memes; let i = index" [style.animation-delay]="(i * 0.05) + 's'">
             <a [routerLink]="['/memes', meme.id]" class="card-link" (click)="onMemeClick()">
                 <div class="image-wrapper">
-                    <img [src]="meme.url" [alt]="meme.name" loading="lazy" class="meme-image">
+                    <img [src]="meme.image_path" [alt]="meme.title" loading="lazy" class="meme-image">
                     <div class="image-overlay">
                         <span class="view-details">
                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
@@ -38,14 +38,13 @@
                     </div>
                 </div>
                 <div class="card-content">
-                    <h3 class="meme-name">{{ meme.name }}</h3>
+                    <h3 class="meme-name">{{ meme.title }}</h3>
                     <div class="card-meta">
                         <span class="meta-item">
                             <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
                                 fill="none" stroke="currentColor" stroke-width="2">
                                 <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
                             </svg>
-                            {{ meme.width }}×{{ meme.height }}
                         </span>
                     </div>
                 </div>
